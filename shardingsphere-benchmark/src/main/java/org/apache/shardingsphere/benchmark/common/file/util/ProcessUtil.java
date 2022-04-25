@@ -1,6 +1,6 @@
 package org.apache.shardingsphere.benchmark.common.file.util;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.io.BufferedReader;

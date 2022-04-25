@@ -6,61 +6,38 @@
 
     <groupId>shardingsphere-benchmark</groupId>
     <artifactId>shardingsphere-benchmark</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>2.1-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>shardingsphere-infra-common</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
+            <version>5.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>shardingsphere-infra-executor</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
+            <version>5.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>shardingsphere-jdbc-core</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
+            <version>5.1.1</version>
         </dependency>
-        <!--dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-kernel-context</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
-        </dependency-->
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>shardingsphere-sharding-api</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-sharding-common</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-sharding-route</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-sharding-route</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
+            <version>5.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>shardingsphere-encrypt-api</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
+            <version>5.1.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-encrypt-common</artifactId>
-            <version>[5.0.0-RC1-SNAPSHOT,)</version>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-test</artifactId>
@@ -87,21 +64,6 @@
             <version>1.4.196</version>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>org.apache.shardingsphere</groupId>-->
-        <!--<artifactId>sharding-core-api</artifactId>-->
-        <!--<version>[5.0.0-RC1-SNAPSHOT,)</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.apache.shardingsphere</groupId>-->
-        <!--<artifactId>sharding-jdbc-core</artifactId>-->
-        <!--<version>[5.0.0-RC1-SNAPSHOT,)</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.apache.shardingsphere</groupId>-->
-        <!--<artifactId>encrypt-core-common</artifactId>-->
-        <!--<version>[5.0.0-RC1-SNAPSHOT,)</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -127,7 +89,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.4</version>
+            <version>1.18.20</version>
         </dependency>
 
         <dependency>
@@ -159,16 +121,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
                 <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
                 <executions>
                     <execution>
@@ -181,31 +155,295 @@
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>
-                                        META-INF/services/org.apache.shardingsphere.infra.route.SQLRouter
-                                    </resource>
-                                </transformer>                                
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>
-                                        META-INF/services/org.apache.shardingsphere.sql.parser.spi.SQLParserConfiguration
+                                        META-INF/services/org.apache.shardingsphere.authority.provider.natived.builder.StoragePrivilegeHandler
                                     </resource>
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>
-                                        META-INF/services/org.apache.shardingsphere.infra.yaml.swapper.YamlRuleConfigurationSwapper
+                                        META-INF/services/org.apache.shardingsphere.authority.spi.AuthorityProvideAlgorithm
                                     </resource>
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>
-                                        META-INF/services/org.apache.shardingsphere.infra.route.decorator.RouteDecorator
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.api.RuleAlteredJobAPI
                                     </resource>
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>
-                                        META-INF/services/org.apache.shardingsphere.infra.rule.ShardingSphereRuleBuilder
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.core.datasource.creator.PipelineDataSourceCreator
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.spi.check.consistency.DataConsistencyCheckAlgorithm
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.spi.check.consistency.SingleTableDataCalculator
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.spi.detect.JobCompletionDetectAlgorithm
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.spi.ingest.channel.PipelineChannelFactory
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.spi.lock.RowBasedJobLockAlgorithm
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.spi.lock.RuleBasedJobLockAlgorithm
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.spi.rulealtered.RuleAlteredDetector
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.data.pipeline.spi.rulealtered.RuleAlteredJobConfigurationPreparer
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.dbdiscovery.spi.DatabaseDiscoveryType
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.distsql.parser.engine.spi.FeaturedDistSQLStatementParserFacade
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.driver.state.DriverState
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.error.handler.JobErrorHandler
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.executor.item.impl.ClassedJobItemExecutor
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.executor.item.impl.TypedJobItemExecutor
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.infra.context.Reloadable
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.infra.handler.sharding.JobShardingStrategy
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.infra.handler.threadpool.JobExecutorServiceHandler
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.infra.yaml.config.YamlConfigurationConverter
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.tracing.listener.TracingListenerConfiguration
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.tracing.rdb.type.DatabaseType
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.elasticjob.tracing.storage.TracingStorageConverter
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.encrypt.spi.EncryptAlgorithm
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.aware.DataSourceNameAware
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.config.checker.RuleConfigurationChecker
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.context.refresher.MetaDataRefresher
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.database.type.DatabaseType
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.datanode.DataNodeBuilder
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.datasource.pool.destroyer.detector.DataSourcePoolActiveDetector
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.datasource.pool.metadata.DataSourcePoolMetaData
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.datetime.DatetimeService
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.distsql.preprocess.RuleDefinitionAlterPreprocessor
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.distsql.query.DistSQLResultSet
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.distsql.update.RALUpdater
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.distsql.update.RuleDefinitionUpdater
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.executor.check.SQLChecker
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.executor.sql.execute.engine.driver.jdbc.sane.SaneQueryResultEngine
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.executor.sql.prepare.driver.SQLExecutionUnitBuilder
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.executor.sql.process.spi.ExecuteProcessReporter
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.federation.optimizer.context.parser.dialect.OptimizerSQLDialectBuilder
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.merge.engine.ResultProcessEngine
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.metadata.model.addressing.TableAddressingMetaDataDecorator
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.metadata.model.logic.spi.LogicMetaDataDecorator
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.metadata.model.logic.spi.LogicMetaDataLoader
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.metadata.schema.builder.spi.RuleBasedTableMetaDataBuilder
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.metadata.schema.loader.spi.DialectTableMetaDataLoader
                                     </resource>
                                 </transformer>
                                 <transformer
@@ -217,26 +455,118 @@
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>
-                                        META-INF/services/org.apache.shardingsphere.infra.metadata.schema.spi.RuleMetaDataDecorator
+                                        META-INF/services/org.apache.shardingsphere.infra.route.SQLRouter
                                     </resource>
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>
-                                        META-INF/services/org.apache.shardingsphere.infra.metadata.schema.spi.RuleMetaDataLoader
+                                        META-INF/services/org.apache.shardingsphere.infra.rule.builder.global.DefaultGlobalRuleConfigurationBuilder
                                     </resource>
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>
-                                        META-INF/services/org.apache.shardingsphere.infra.merge.engine.ResultProcessEngine
+                                        META-INF/services/org.apache.shardingsphere.infra.rule.builder.global.GlobalRuleBuilder
                                     </resource>
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/services/java.sql.Driver</resource>
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.rule.builder.schema.DefaultSchemaRuleConfigurationBuilder
+                                    </resource>
                                 </transformer>
-                                <!--transformer
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.rule.builder.schema.SchemaRuleBuilder
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.rule.ShardingSphereRuleBuilder
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.yaml.config.swapper.mode.PersistRepositoryConfigurationYamlSwapper
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.yaml.config.swapper.YamlRuleConfigurationSwapper
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.yaml.engine.constructor.ShardingSphereYamlConstruct
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.yaml.engine.representer.processor.ShardingSphereYamlTupleProcessor
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.infra.yaml.swapper.YamlRuleConfigurationSwapper
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.mode.manager.cluster.coordinator.registry.GovernanceWatcher
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.mode.manager.ContextManagerBuilder
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.mode.manager.listener.ContextManagerLifecycleListener
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.mode.repository.cluster.ClusterPersistRepository
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.mode.repository.standalone.StandalonePersistRepository
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.readwritesplitting.spi.ReadwriteSplittingType
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.readwritesplitting.spi.ReplicaLoadBalanceAlgorithm
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.shadow.spi.ShadowAlgorithm
+                                    </resource>
+                                </transformer>
+                                <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>
                                         META-INF/services/org.apache.shardingsphere.sharding.spi.KeyGenerateAlgorithm
@@ -247,7 +577,31 @@
                                     <resource>
                                         META-INF/services/org.apache.shardingsphere.sharding.spi.ShardingAlgorithm
                                     </resource>
-                                </transformer-->                                
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.sql.parser.spi.DatabaseTypedSQLParserFacade
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.sql.parser.spi.SQLVisitorFacade
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.traffic.spi.TrafficAlgorithm
+                                    </resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>
+                                        META-INF/services/org.apache.shardingsphere.traffic.spi.TrafficLoadBalanceAlgorithm
+                                    </resource>
+                                </transformer>
                             </transformers>
                         </configuration>
                     </execution>

@@ -1,5 +1,6 @@
 package org.apache.shardingsphere.benchmark.jmeter.common.datapreparation.shardingsphere.sharding;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.shardingsphere.benchmark.db.jdbc.JDBCDataSourceUtil;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 
+@Slf4j
 public class JMeterShardingSphereCommonShardingInsert extends JMeterBenchmarkBase {
     
     public static DataSource dataSource;
@@ -31,6 +33,7 @@ public class JMeterShardingSphereCommonShardingInsert extends JMeterBenchmarkBas
 
     @Override
     public SampleResult runTest(JavaSamplerContext context) {
+        log.info("开始初始化数据表...");
         SampleResult results = new SampleResult();
         results.setSampleLabel("JMeterShardingSphereCommonShardingInsert");
         results.sampleStart();

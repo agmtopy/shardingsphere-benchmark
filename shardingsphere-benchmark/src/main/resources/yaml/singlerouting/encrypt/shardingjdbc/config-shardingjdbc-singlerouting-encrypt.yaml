@@ -1,7 +1,8 @@
 dataSources:
-  shardingsphere_benchmark: !!com.zaxxer.hikari.HikariDataSource
+  shardingsphere_benchmark:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     username: root
-    password:
+    password: 123456
     jdbcUrl: jdbc:mysql://ss.benchmark.singlerouting.encrypt.ds0:3306/shardingsphere_benchmark?serverTimezone=UTC&useSSL=false
     driverClassName: com.mysql.jdbc.Driver
     connectionTimeout: 30000
@@ -34,7 +35,7 @@ rules:
           c:
             cipherColumn: c
             encryptorName: encryptor_aes
-            
+
 props:
   max.connections.size.per.query: 10
   acceptor.size: 200  # The default value is available processors count * 2.

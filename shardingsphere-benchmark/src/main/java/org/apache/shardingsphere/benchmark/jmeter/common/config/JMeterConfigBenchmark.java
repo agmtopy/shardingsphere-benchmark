@@ -1,5 +1,6 @@
 package org.apache.shardingsphere.benchmark.jmeter.common.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.shardingsphere.benchmark.common.file.jmeter.BenchmarkResultDirManagement;
@@ -14,10 +15,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Slf4j
 public class JMeterConfigBenchmark extends JMeterBenchmarkBase {
-    
+
     @Override
     public SampleResult runTest(JavaSamplerContext context) {
+        log.debug("开始创建表...");
         SampleResult results = new SampleResult();
         results.setSampleLabel("JMeterConfigBenchmark");
         results.sampleStart();
@@ -50,12 +53,11 @@ public class JMeterConfigBenchmark extends JMeterBenchmarkBase {
             }
             initBenchmarkResultDB((String)userConfig.get("shardingsphere.benchmark.result.database.host"), (String)userConfig.get("shardingsphere.benchmark.result.datasource"));
         } catch (SQLException throwables) {
+            log.debug("创建表异常:",throwables.getCause());
             throwables.printStackTrace();
         } finally {
             results.sampleEnd();
         }
-        
-        results.sampleEnd();
         return results;
     }
     
@@ -107,13 +109,13 @@ public class JMeterConfigBenchmark extends JMeterBenchmarkBase {
         String createdDatabaseSql = initDbSqlList.get(0);
         createdDatabaseSql = createdDatabaseSql.replace("default_database", createdDatabaseName);
         String createdTableSql = initDbSqlList.get(1);
-        DataSource dataSource1 = JDBCDataSourceUtil.initDb("information_schema", host, Integer.valueOf((String)userConfig.get("shardingsphere.benchmark.database.port")).intValue(), (String) userConfig.get("shardingsphere.benchmark.database.username"), (String) dbConfig.get("shardingsphere.benchmark.database.password"));
+        DataSource dataSource1 = JDBCDataSourceUtil.initDb("information_schema", host, Integer.valueOf((String)userConfig.get("shardingsphere.benchmark.database.port")).intValue(), (String) userConfig.get("shardingsphere.benchmark.database.username"), (String) userConfig.get("shardingsphere.benchmark.database.password"));
         Connection connection1 = dataSource1.getConnection();
         Statement stat1 = connection1.createStatement();
         stat1.executeUpdate(createdDatabaseSql);
         stat1.close();
         connection1.close();
-        DataSource createdDataSource1 = JDBCDataSourceUtil.initDb(createdDatabaseName, host, Integer.valueOf((String)userConfig.get("shardingsphere.benchmark.database.port")).intValue(), (String) userConfig.get("shardingsphere.benchmark.database.username"), (String) dbConfig.get("shardingsphere.benchmark.database.password"));
+        DataSource createdDataSource1 = JDBCDataSourceUtil.initDb(createdDatabaseName, host, Integer.valueOf((String)userConfig.get("shardingsphere.benchmark.database.port")).intValue(), (String) userConfig.get("shardingsphere.benchmark.database.username"), (String) userConfig.get("shardingsphere.benchmark.database.password"));
         Connection createdConnection1 = createdDataSource1.getConnection();
         Statement createdStat1 = createdConnection1.createStatement();
         String createdNoShardingSql = createdTableSql.replace("default_table", createdTableName);

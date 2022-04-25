@@ -1,8 +1,9 @@
 dataSources:
-  ds_0: !!com.zaxxer.hikari.HikariDataSource
+  ds_0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     username: root
-    password:
-    jdbcUrl: jdbc:mysql://ss.benchmark.fullrouting.sharding.ds0:3306/shardingsphere_benchmark?serverTimezone=UTC&useSSL=false
+    password: 123456
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/shardingsphere_benchmark?serverTimezone=UTC&useSSL=false
     driverClassName: com.mysql.jdbc.Driver
     connectionTimeout: 30000
     idleTimeout: 60000
@@ -20,10 +21,11 @@ dataSources:
       maintainTimeStats: false
       netTimeoutForStreamingResults: 0
       useServerPrepStmts: true
-  ds_1: !!com.zaxxer.hikari.HikariDataSource
+  ds_1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     username: root
-    password:
-    jdbcUrl: jdbc:mysql://ss.benchmark.fullrouting.sharding.ds1:3306/shardingsphere_benchmark?serverTimezone=UTC&useSSL=false
+    password: 123456
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/shardingsphere_benchmark?serverTimezone=UTC&useSSL=false
     driverClassName: com.mysql.jdbc.Driver
     connectionTimeout: 30000
     idleTimeout: 60000
@@ -41,10 +43,11 @@ dataSources:
       maintainTimeStats: false
       netTimeoutForStreamingResults: 0
       useServerPrepStmts: true
-  ds_2: !!com.zaxxer.hikari.HikariDataSource
+  ds_2:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     username: root
-    password:
-    jdbcUrl: jdbc:mysql://ss.benchmark.fullrouting.sharding.ds2:3306/shardingsphere_benchmark?serverTimezone=UTC&useSSL=false
+    password: 123456
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/shardingsphere_benchmark?serverTimezone=UTC&useSSL=false
     driverClassName: com.mysql.jdbc.Driver
     connectionTimeout: 30000
     idleTimeout: 60000
@@ -67,7 +70,7 @@ rules:
   - !SHARDING
     tables:
       sbtest:
-        actualDataNodes: ds_${0..2}.sbtest${0..99}
+        actualDataNodes: ds_${0..1}.sbtest${0..1}
         databaseStrategy:
           standard:
             shardingColumn: id
@@ -84,11 +87,11 @@ rules:
       database_inline:
         type: INLINE
         props:
-          algorithm-expression: ds_${id % 3}
+          algorithm-expression: ds_${id % 2}
       table_inline:
         type: INLINE
         props:
-          algorithm-expression: sbtest${k % 100}
+          algorithm-expression: sbtest${k % 2}
     keyGenerators:
       increment:
         type: SNOWFLAKE

@@ -1,0 +1,12 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,Latency,IdleTime,Connect
+1650295752655,1381,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650296163713,1311,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650296313044,1234,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650297008683,1072,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650325497406,1110,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650463717548,3676,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650641296042,2768,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650680016583,3359,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650845825921,3162,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650847006221,2832,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0
+1650896284404,3627,JMeterConfigBenchmark,,,Thread Group 1-1,,false,,0,0,1,1,0,0,0

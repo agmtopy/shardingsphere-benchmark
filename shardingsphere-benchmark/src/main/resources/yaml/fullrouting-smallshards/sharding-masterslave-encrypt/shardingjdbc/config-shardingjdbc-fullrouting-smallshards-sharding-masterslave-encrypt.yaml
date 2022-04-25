@@ -195,7 +195,7 @@ rules:
       table_inline:
         type: INLINE
         props:
-          algorithm-expression: sbtest${k % 100}
+          algorithm-expression: sbtest${k % 2}
     keyGenerators:
       increment:
         type: SNOWFLAKE
